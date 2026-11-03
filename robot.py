@@ -20,6 +20,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
 
         self.driver_controller = commands2.button.CommandXboxController(0)
 
+        self.drivetrain_type = "Swerve"  # Options: Tank, Arcade, Swerve
 
     def disabledInit(self):
         pass
@@ -34,7 +35,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         pass
 
     def teleopInit(self):
-        if False:
+        if (self.drivetrain_type == "Tank"):
             self.drivetrain.setDefaultCommand(
                 TankDrive(
                     lambda: wpimath.applyDeadband(
@@ -50,7 +51,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
                     self.drivetrain
                 )
             )
-        else:
+        elif (self.drivetrain_type == "Arcade"):
             self.drivetrain.setDefaultCommand(
                 ArcadeDrive(
                     lambda: wpimath.applyDeadband(
@@ -67,6 +68,8 @@ class WestCoastRobot(commands2.TimedCommandRobot):
                     self.drivetrain
                 )
             )
+        else:
+            pass
 
     def teleopPeriodic(self):
         pass
