@@ -1,6 +1,6 @@
 import commands2
 from wpimath.filter import SlewRateLimiter
-from constats import constats
+from constants import constants
 
 class ArcadeDrive(commands2.Command):
     def __init__(self, speed_percentage, turn_angle_percentage, drivetrain): # speed_limit,
@@ -11,8 +11,8 @@ class ArcadeDrive(commands2.Command):
         # self.speed_limit = speed_limit
         self.drivetrain = drivetrain
 
-        # self.speed_limit = SlewRateLimiter(constats.RAMP_LIMIT)
-        # self.rotation_limit = SlewRateLimiter(constats.RAMP_LIMIT)
+        # self.speed_limit = SlewRateLimiter(constants.RAMP_LIMIT)
+        # self.rotation_limit = SlewRateLimiter(constants.RAMP_LIMIT)
 
         self.addRequirements(self.drivetrain)     
 

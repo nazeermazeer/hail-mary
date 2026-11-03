@@ -6,7 +6,7 @@ import wpimath
 from commands.arcade_drive import ArcadeDrive
 from commands.tank_drive import TankDrive
 from subsystems.drivetrain import WestCoastDrivetrain
-from constats import constats
+from constants import constants
 
 
 class WestCoastRobot(commands2.TimedCommandRobot):
@@ -63,7 +63,7 @@ class WestCoastRobot(commands2.TimedCommandRobot):
                         0.1,
                         1
                     ),
-                    # constats.SPEED_LIMIT,
+                    # constants.SPEED_LIMIT,
                     self.drivetrain
                 )
             )
