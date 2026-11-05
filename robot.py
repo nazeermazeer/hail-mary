@@ -4,8 +4,9 @@ import wpilib
 import wpimath
 
 from commands.arcade_drive import ArcadeDrive
+from commands.move_motors import MoveMotors
 from commands.tank_drive import TankDrive
-from subsystems.drivetrain import WestCoastDrivetrain
+from subsystems.drivetrain import UselessDrivetrain
 from constants import constants
 
 
@@ -13,12 +14,18 @@ class WestCoastRobot(commands2.TimedCommandRobot):
     def robotInit(self):
         super().__init__()
 
-        self.left_motor = rev.SparkMax(1 , rev.SparkLowLevel.MotorType.kBrushless)
-        self.right_motor = rev.SparkMax(2 , rev.SparkLowLevel.MotorType.kBrushless)
+        self.front_left_1 = rev.SparkMax(58, rev.SparkLowLevel.MotorType.kBrushless)
+        self.front_left_2 = rev.SparkMax(57, rev.SparkLowLevel.MotorType.kBrushless)
+        self.front_right_1 = rev.SparkMax(60, rev.SparkLowLevel.MotorType.kBrushless)
+        self.front_right_2 = rev.SparkMax(59, rev.SparkLowLevel.MotorType.kBrushless)
+        self.rear_left_1 = rev.SparkMax(54, rev.SparkLowLevel.MotorType.kBrushless)
+        self.rear_left_2 = rev.SparkMax(53, rev.SparkLowLevel.MotorType.kBrushless)
+        self.rear_right_1 = rev.SparkMax(51, rev.SparkLowLevel.MotorType.kBrushless)
+        self.rear_right_2 = rev.SparkMax(50, rev.SparkLowLevel.MotorType.kBrushless)
 
-        self.drivetrain = WestCoastDrivetrain(self.left_motor, self.right_motor)
+        self.drivetrain = UselessDrivetrain(self.front_left_1, self.front_left_2, self.front_right_1, self.front_right_2, self.rear_left_1, self.rear_left_2, self.rear_right_1, self.rear_right_2)
 
-        self.driver_controller = commands2.button.CommandXboxController(0)
+        # self.driver_controller = commands2.button.CommandXboxController(0)
 
 
     def disabledInit(self):
@@ -34,43 +41,14 @@ class WestCoastRobot(commands2.TimedCommandRobot):
         pass
 
     def teleopInit(self):
-        if False:
-            self.drivetrain.setDefaultCommand(
-                TankDrive(
-                    lambda: wpimath.applyDeadband(
-                        self.driver_controller.getLeftY(),
-                        0.1,
-                        1
-                    ),
-                    lambda: wpimath.applyDeadband(
-                        self.driver_controller.getRightY(),
-                        0.1,
-                        1
-                    ),
-                    self.drivetrain
-                )
-            )
-        else:
-            self.drivetrain.setDefaultCommand(
-                ArcadeDrive(
-                    lambda: wpimath.applyDeadband(
-                        self.driver_controller.getLeftY(),
-                        0.1,
-                        1
-                    ),
-                    lambda: wpimath.applyDeadband(
-                        self.driver_controller.getRightX(),
-                        0.1,
-                        1
-                    ),
-                    # constants.SPEED_LIMIT,
-                    self.drivetrain
-                )
-            )
+        command = MoveMotors(self.drivetrain, self.front_left_1, self.front_left_2, self.front_right_1, self.front_right_2, self.rear_left_1, self.rear_left_2, self.rear_right_1, self.rear_right_2)
+        self.drivetrain.setDefaultCommand(
+            command
+        )
 
     def teleopPeriodic(self):
         pass
-        #print(f"Current status of A button: {self.driver_controller.a()}")
+        # print(f"Current status of A button: {self.driver_controller.a()}")
 
     def testInit(self):
         # self.driver_controller.setRumble(GenericHID.RumbleType.kLeftRumble, 1.0)
